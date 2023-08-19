@@ -1,3 +1,9 @@
+# Archivos personales
+.replit
+poetry.lock
+pyproject.toml
+replit.nix
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

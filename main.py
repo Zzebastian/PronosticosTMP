@@ -1,30 +1,46 @@
 import requests, os, csv, re
 from bs4 import BeautifulSoup
 # -*- coding: utf-8 -*-
-
-
-url = 'https://www.todaymatchprediction.com/todays-tennis-predictions.html'
 archivo = 'CVS Files/tenis.csv'
 
-response = requests.get(url)
-html = response.text
-soup = BeautifulSoup(html, 'html.parser')
+def sopa(url, tag, Elemento):
+  response = requests.get(url)
+  html = response.text
+  soup = BeautifulSoup(html, 'html.parser')
+  elemLinks = soup.find_all(tag,Elemento)
+  return elemLinks
+#
 
-print(len(soup))
+url = 'https://www.todaymatchprediction.com/todays-tennis-predictions.html'
 tag = 'a'
-Elemento = "https://www.todaymatchprediction.com/game-tips/tennis/142516887/Adrian-Mannarino-vs-Alexander-Zverev.html"
-elemLinks = soup.find_all(tag,Elemento)
-print(len(elemLinks))
-# elem = []
+Elemento = {'class' : 'linksgogames'}
+elemLinks = sopa(url, tag, Elemento)
 
+
+referencias = []
+for ref in elemLinks:
+  rr = ref.get('href')
+  referencias.append(rr)
+#print(referencias)
+
+url = referencias[0]
+tag =  'table'
+Elemento = {'class' : "table table-wrap-bordered table-thead-color"}
+tabla = sopa(url, tag, Elemento)
+print(len(tabla))
+
+tratar = str(tabla[0])
+filas = re.split('\n', tratar)
+print(len(filas))
+i = 0
+# for EEE in filas:
+#   print(i, EEE)
+#   i+=1
+for II in (8,9,13,14,18,19):
+  print(filas[II])
+# print(filas)
 # for link in elemLinks:
 #     elem.append(link.text)
-
-
-
-
-
-
 
 # if os.path.exists(os.path.join(os.path.dirname(__file__), archivo)):
 #     conf = True
